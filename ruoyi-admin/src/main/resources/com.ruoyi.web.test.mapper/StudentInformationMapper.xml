@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruoyi.web.test.mapper.StudentInformationMapper">
+    <!--    <resultMap type="com.ruoyi.web.test.domain.StudentInformation" id="StudentInformationMap">-->
+    <!--        <result property="id" column="id"/>-->
+    <!--        <result property="name" column="name"/>-->
+    <!--        <result property="gender" column="gender"/>-->
+    <!--        <result property="year" column="year"/>-->
+    <!--        <result property="whetherDelete" column="whether_delete"/>-->
+    <!--    </resultMap>-->
+    <select id="queryAllByLimit" resultType="com.ruoyi.web.test.domain.StudentInformation">
+        select *
+        from student_information
+        where where_delete = 0
+        order by id desc
+            limit #{off}, #{num}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from student_information
+        where where_delete = 0
+    </select>
+    <select id="countName" resultType="java.lang.Long">
+        select count(1)
+        from student_information
+        where name LIKE '%${name}%'
+          and where_delete = 0
+    </select>
+    <select id="queryNameByLimit" resultType="com.ruoyi.web.test.domain.StudentInformation">
+        select *
+        from student_information
+        where name LIKE '%${name}%'
+          and where_delete = 0
+        order by id desc
+            limit #{off}, #{num}
+    </select>
+    <select id="queryId" resultType="com.ruoyi.web.test.domain.StudentInformation">
+        select *
+        from student_information
+        where id = #{id}
+          and where_delete = 0
+    </select>
+    <insert id="insertInformation">
+        insert into student_information(name, gender, year, phone)
+        values (#{name}, #{gender}, #{year}, #{phone})
+    </insert>
+    <update id="update">
+        update student_information
+        <set>
+            <if test="name!= null and name!= ''">
+                name=#{name},
+            </if>
+            <if test="gender!= null and gender!= ''">
+                gender=#{gender},
+            </if>
+            <if test="year!= null and year!= ''">
+                year=#{year},
+            </if>
+            <if test="phone!= null and phone!= ''">
+                phone=#{phone},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="del">
+        update student_information
+        set where_delete=1
+        where id = #{id}
+    </delete>
+</mapper>
