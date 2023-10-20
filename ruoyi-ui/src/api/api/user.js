@@ -32,11 +32,19 @@ export function addItem(query){
         data: query,
     })
 }
-//删除
-export function deleteItem(ids){
+//批量删除
+export function deleteItems(ids){
     return request({
         url: '/StudentInformation/delArr',
         method: 'delete',
         data: ids,
+    })
+}
+//删除
+export function deleteItem(ids){
+    return request({
+        url: '/StudentInformation/del',
+        method: 'delete',
+        params: {id:ids}
     })
 }

@@ -38,15 +38,20 @@
 </template>
 
 <script setup>
-import {onMounted, ref,} from "vue";
-import {addItem, deleteItem, edit, queryId, test1} from "@/api/api/user";
+import {ref,onMounted, unref} from "vue";
+import {addItem, deleteItem, edit, queryId, test1,deleteItems} from "@/api/api/user";
 let pId =ref(null)
-onMounted(()=>{getList()})
+onMounted(()=>{
+  getList()
+  console.log('test',unref(test))
+})
  const queryParams = ref({
    off:1,
    num:10,
    name:null
  })
+const test = ref(0)
+
 let ruleForm = ref({
   phone:null,
   name:null,
@@ -109,13 +114,13 @@ function add (){
 //删除
 function  deleteIt(row){
   deleteItem(row.id).then(res=>{
-    console.log('删除成功',res)
+    console.log('删除成功',row.id,res)
     getList()
   })
 }
 //批量删除
 function  deleteAll (){
-  deleteItem(multipleSelection.value).then(res=>{
+  deleteItems(multipleSelection.value).then(res=>{
     console.log('删除成功',res)
     getList()
   })
